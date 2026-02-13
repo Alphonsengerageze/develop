@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>School Management System | Premium Design</title>
+  <style>
+    /* ===== VARIABLES & RESET ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+      animation: gradientBG 15s ease infinite;
+      background-size: 400% 400%;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* ===== MAIN CONTAINER ===== */
+    .dashboard-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* ===== HEADER SECTION ===== */
+    .header {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 30px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      animation: slideDown 1s ease;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    @keyframes slideDown {
+      from {
+        transform: translateY(-100px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .header h1 {
+      font-size: 2.5em;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+      animation: glow 3s ease-in-out infinite;
+    }
+
+    @keyframes glow {
+      0%, 100% { text-shadow: 0 0 10px rgba(102,126,234,0.3); }
+      50% { text-shadow: 0 0 30px rgba(102,126,234,0.5); }
+    }
+
+    /* ===== DASHBOARD CARDS ===== */
+    .dashboard-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+
+    .dashboard-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 30px;
+      padding: 30px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid rgba(255,255,255,0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dashboard-card:hover {
+      transform: translateY(-15px) scale(1.02);
+      box-shadow: 0 30px 45px rgba(0,0,0,0.2);
+    }
+
+    .dashboard-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.7s;
+    }
+
+    .dashboard-card:hover::before {
+      left: 100%;
+    }
+
+    /* ===== CARD HEADERS ===== */
+    .card-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 25px;
+      animation: fadeInRight 0.8s ease;
+    }
+
+    @keyframes fadeInRight {
+      from {
+        transform: translateX(-30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    .card-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 20px;
+      font-size: 28px;
+      animation: rotate 20s linear infinite;
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* ===== STATS CARDS ===== */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .stat-item {
+      background: linear-gradient(135deg, #667eea15, #764ba215);
+      padding: 20px;
+      border-radius: 20px;
+      text-align: center;
+      animation: pulse 2s ease-in-out infinite;
+      transition: all 0.3s ease;
+    }
+
+    .stat-item:hover {
+      transform: scale(1.05);
+      background: linear-gradient(135deg, #667eea25, #764ba225);
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+    }
+
+    .stat-number {
+      font-size: 2.2em;
+      font-weight: 700;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: countUp 2s ease;
+    }
+
+    /* ===== LISTS & ITEMS ===== */
+    .list-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+      border-bottom: 1px solid rgba(102,126,234,0.1);
+      animation: slideIn 0.5s ease;
+      transition: all 0.3s ease;
+    }
+
+    .list-item:hover {
+      background: linear-gradient(90deg, #667eea10, transparent);
+      transform: translateX(10px);
+      border-radius: 10px;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(-30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    /* ===== BUTTONS ===== */
+    .btn {
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 15px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      margin: 5px;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(102,126,234,0.4);
+    }
+
+    .btn::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 5px;
+      height: 5px;
+      background: rgba(255,255,255,0.5);
+      opacity: 0;
+      border-radius: 100%;
+      transform: scale(1, 1) translate(-50%);
+      transform-origin: 50% 50%;
+    }
+
+    .btn:focus:not(:active)::after {
+      animation: ripple 1s ease-out;
+    }
+
+    @keyframes ripple {
+      0% {
+        transform: scale(0, 0);
+        opacity: 1;
+      }
+      20% {
+        transform: scale(25, 25);
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: scale(40, 40);
+      }
+    }
+
+    /* ===== PROGRESS BARS ===== */
+    .progress-container {
+      margin-top: 20px;
+    }
+
+    .progress-item {
+      margin-bottom: 15px;
+      animation: expandWidth 1.5s ease;
+    }
+
+    @keyframes expandWidth {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 10px;
+      background: rgba(102,126,234,0.1);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 5px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      border-radius: 10px;
+      animation: fillBar 2s ease;
+      position: relative;
+    }
+
+    @keyframes fillBar {
+      from { width: 0; }
+      to { width: var(--width); }
+    }
+
+    .progress-fill::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    /* ===== BADGES ===== */
+    .badge {
+      padding: 5px 15px;
+      border-radius: 30px;
+      font-size: 12px;
+      font-weight: 600;
+      animation: bounce 2s ease infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-3px); }
+    }
+
+    .badge-success { background: #10b98120; color: #10b981; }
+    .badge-warning { background: #f59e0b20; color: #f59e0b; }
+    .badge-danger { background: #ef444420; color: #ef4444; }
+
+    /* ===== ADMIN CARD ===== */
+    .admin-card .card-icon { background: linear-gradient(135deg, #667eea20, #764ba220); color: #667eea; }
+    .teacher-card .card-icon { background: linear-gradient(135deg, #10b98120, #05966920); color: #10b981; }
+    .dos-card .card-icon { background: linear-gradient(135deg, #f59e0b20, #d9770620); color: #f59e0b; }
+
+    /* ===== FLOATING ANIMATIONS ===== */
+    .floating-shape {
+      position: fixed;
+      width: 300px;
+      height: 300px;
+      background: linear-gradient(45deg, #667eea20, #764ba220);
+      border-radius: 50%;
+      filter: blur(60px);
+      z-index: -1;
+      animation: float 20s infinite;
+    }
+
+    .shape1 {
+      top: -100px;
+      left: -100px;
+      animation-delay: 0s;
+    }
+
+    .shape2 {
+      bottom: -100px;
+      right: -100px;
+      width: 400px;
+      height: 400px;
+      animation-delay: -5s;
+    }
+
+    .shape3 {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 500px;
+      height: 500px;
+      animation-delay: -10s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      33% { transform: translate(30px, -30px) rotate(120deg); }
+      66% { transform: translate(-30px, 30px) rotate(240deg); }
+    }
+
+    /* ===== NOTIFICATIONS ===== */
+    .notification-badge {
+      position: relative;
+    }
+
+    .notification-badge::after {
+      content: '3';
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: linear-gradient(45deg, #ef4444, #dc2626);
+      color: white;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      animation: ring 2s infinite;
+    }
+
+    @keyframes ring {
+      0% { transform: rotate(0deg); }
+      10% { transform: rotate(15deg); }
+      20% { transform: rotate(-15deg); }
+      30% { transform: rotate(15deg); }
+      40% { transform: rotate(-15deg); }
+      50% { transform: rotate(0deg); }
+      100% { transform: rotate(0deg); }
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .dashboard-row {
+        grid-template-columns: 1fr;
+      }
+      
+      .header h1 {
+        font-size: 1.8em;
+      }
+    }
+
+    /* ===== LOADING ANIMATION ===== */
+    .loading-dots {
+      display: inline-flex;
+      gap: 5px;
+    }
+
+    .loading-dots span {
+      width: 8px;
+      height: 8px;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      border-radius: 50%;
+      animation: dots 1.4s infinite;
+    }
+
+    .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes dots {
+      0%, 100% { transform: scale(0.5); opacity: 0.5; }
+      50% { transform: scale(1); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Floating Background Shapes -->
+  <div class="floating-shape shape1"></div>
+  <div class="floating-shape shape2"></div>
+  <div class="floating-shape shape3"></div>
+
+  <div class="dashboard-container">
+    <!-- Header Section -->
+    <div class="header">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <h1>🎓 School Management System</h1>
+          <p style="color: #666; animation: slideIn 1s ease;">Welcome back! Today is a great day for learning</p>
+        </div>
+        <div class="notification-badge" style="font-size: 24px; cursor: pointer;">
+          🔔
+        </div>
+      </div>
+      <div style="display: flex; gap: 15px; margin-top: 20px;">
+        <span class="badge badge-success">● Active Users: 156</span>
+        <span class="badge badge-warning">● Pending: 23</span>
+        <span class="badge badge-danger">● Urgent: 5</span>
+      </div>
+    </div>
+
+    <!-- Dashboard Cards -->
+    <div class="dashboard-row">
+      <!-- ADMIN DASHBOARD -->
+      <div class="dashboard-card admin-card">
+        <div class="card-header">
+          <div class="card-icon">👑</div>
+          <div>
+            <h2 style="font-size: 1.8em; background: linear-gradient(45deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Admin</h2>
+            <p style="color: #666;">System Overview</p>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div style="font-size: 14px; color: #666;">Total Students</div>
+            <div class="stat-number">1,284</div>
+            <div style="color: #10b981;">↑ 12%</div>
+          </div>
+          <div class="stat-item">
+            <div style="font-size: 14px; color: #666;">Total Teachers</div>
+            <div class="stat-number">48</div>
+            <div style="color: #10b981;">↑ 5%</div>
+          </div>
+          <div class="stat-item">
+            <div style="font-size: 14px; color: #666;">Classes</div>
+            <div class="stat-number">32</div>
+            <div style="color: #f59e0b;">→ 0%</div>
+          </div>
+          <div class="stat-item">
+            <div style="font-size: 14px; color: #666;">Revenue</div>
+            <div class="stat-number">$89K</div>
+            <div style="color: #10b981;">↑ 18%</div>
+          </div>
+        </div>
+
+        <div class="progress-container">
+          <div class="progress-item">
+            <div style="display: flex; justify-content: space-between;">
+              <span>School Capacity</span>
+              <span style="font-weight: 600;">78%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="--width: 78%; width: 78%;"></div>
+            </div>
+          </div>
+          <div class="progress-item">
+            <div style="display: flex; justify-content: space-between;">
+              <span>Budget Usage</span>
+              <span style="font-weight: 600;">45%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="--width: 45%; width: 45%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 25px;">
+          <h3 style="margin-bottom: 15px;">📋 Recent Activities</h3>
+          <div class="list-item">
+            <span>New student enrollment</span>
+            <span style="color: #667eea;">5 min ago</span>
+          </div>
+          <div class="list-item">
+            <span>Teacher meeting</span>
+            <span style="color: #667eea;">2 hours ago</span>
+          </div>
+          <div class="list-item">
+            <span>Fee payment received</span>
+            <span style="color: #667eea;">3 hours ago</span>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 15px; margin-top: 25px;">
+          <button class="btn">📊 Full Report</button>
+          <button class="btn" style="background: linear-gradient(45deg, #10b981, #059669);">⚙️ Settings</button>
+        </div>
+      </div>
+
+      <!-- TEACHER DASHBOARD -->
+      <div class="dashboard-card teacher-card">
+        <div class="card-header">
+          <div class="card-icon">👩‍🏫</div>
+          <div>
+            <h2 style="font-size: 1.8em; background: linear-gradient(45deg, #10b981, #059669); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Teacher</h2>
+            <p style="color: #666;">Class Management</p>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div style="font-size: 14px; color: #666;">My Students</div>
+            <div class="stat-number">42</div>
+            <div style="color: #10b981;">↑ 3 new</div>
+          </div>
+          <div class="stat-item">
+            <div style="font-size: 14px; color: #666;">My Classes</div>
+            <div class="stat-number">4</div>
+            <div style="color: #10b981;">Math, Science</div>
+          </div>
+          <div class="stat-item">
+            <div style="font-size: 14px; color: #666;">Assignments</div>
+            <div class="stat-number">8</div>
+            <div style="color: #f59e0b;">3 pending</div>
+          </div>
+          <div class="stat-item">
+            <div style="font-size: 14px; color: #666;">Avg. Grade</div>
+            <div class="stat-number">84%</div>
+            <div style="color: #10b981;">↑ 5%</div>
+          </div>
+        </div>
+
+        <div style="margin-top: 20px;">
+          <h3>📚 Today's Schedule</h3>
+          <div style="margin-top: 15px;">
+            <div class="list-item">
+              <div>
+                <span style="font-weight: 600;">Mathematics 101</span><br>
+                <span style="font-size: 12px; color: #666;">Room A-201</span>
+              </div>
+              <span class="badge badge-success">9:00 AM</span>
+            </div>
+            <div class="list-item">
+              <div>
+                <span style="font-weight: 600;">Physics</span><br>
+                <span style="font-size: 12px; color: #666;">Lab 3</span>
+              </div>
+              <span class="badge badge-success">11:00 AM</span>
+            </div>
+            <div class="list-item">
+              <div>
+                <span style="font-weight: 600;">Teacher Meeting</span><br>
+                <span style="font-size: 12px; color: #666;">Conference Room</span>
+              </div>
+              <span class="badge badge-warning">2:00 PM</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 25px;">
+          <h3>📝 Pending Grading</h3>
+          <div class="progress-item">
+            <div style="display: flex; justify-content: space-between;">
+              <span>Math Quiz</span>
+              <span>15/25 graded</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="--width: 60%; width: 60%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 15px; margin-top: 25px;">
+          <button class="btn">📝 Take Attendance</button>
+          <button class="btn" style="background: linear-gradient(45deg, #f59e0b, #d97706);">📊 Grades</button>
+        </div>
+      </div>
+
+      <!-- DOS DASHBOARD -->
+      <div class="dashboard-card dos-card">
+        <div class="card-header">
+          <div class="card-icon">📋</div>
+          <div>
+            <h2 style="font-size: 1.8em; background: linear-gradient(45deg, #f59e0b, #d97706); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">DOS</h2>
+            <p style="color: #666;">Academic Affairs</p>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div style="font-size: 14px; color: #666;">Academic Performance</div>
+            <div class="stat-number">86%</div>
+            <div style="color: #10b981;">↑ 4%</div>
+          </div>
+          <div class="stat-item">
+            <div style="font-size: 14px; color: #666;">Attendance Rate</div>
+            <div class="stat-number">92%</div>
+            <div style="color: #10b981;">↑ 2%</div>
+          </div>
+          <div class="stat-item">
+            <div style="font-size: 14px; color: #666;">Dropout Rate</div>
+            <div class="stat-number">3%</div>
+            <div style="color: #ef4444;">↓ 1%</div>
+          </div>
+          <div class="stat-item">
+            <div style="font-size: 14px; color: #666;">Exam Score</div>
+            <div class="stat-number">78%</div>
+            <div style="color: #f59e0b;">→ Stable</div>
+          </div>
+        </div>
+
+        <div style="margin-top: 20px;">
+          <h3>📈 Performance by Department</h3>
+          <div style="margin-top: 15px;">
+            <div class="list-item">
+              <span>Science Department</span>
+              <span style="font-weight: 600; color: #10b981;">89%</span>
+            </div>
+            <div class="progress-bar" style="margin: 5px 0 15px;">
+              <div class="progress-fill" style="--width: 89%; width: 89%;"></div>
+            </div>
+            <div class="list-item">
+              <span>Arts Department</span>
+              <span style="font-weight: 600; color: #f59e0b;">76%</span>
+            </div>
+            <div class="progress-bar" style="margin: 5px 0 15px;">
+              <div class="progress-fill" style="--width: 76%; width: 76%;"></div>
+            </div>
+            <div class="list-item">
+              <span>Mathematics</span>
+              <span style="font-weight: 600; color: #667eea;">82%</span>
+            </div>
+            <div class="progress-bar" style="margin: 5px 0;">
+              <div class="progress-fill" style="--width: 82%; width: 82%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 25px;">
+          <h3>⚠️ Academic Alerts</h3>
+          <div class="list-item">
+            <span>🔴 5 students at risk</span>
+            <span class="badge badge-danger">Urgent</span>
+          </div>
+          <div class="list-item">
+            <span>🟡 12 incomplete grades</span>
+            <span class="badge badge-warning">Pending</span>
+          </div>
+          <div class="list-item">
+            <span>🟢 Curriculum update</span>
+            <span class="badge badge-success">Completed</span>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 15px; margin-top: 25px;">
+          <button class="btn">📊 Academic Report</button>
+          <button class="btn" style="background: linear-gradient(45deg, #ef4444, #dc2626);">🚨 Interventions</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Stats Section -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 30px;">
+      <div class="dashboard-card" style="animation: slideUp 0.8s ease;">
+        <h3 style="margin-bottom: 20px;">🏆 Top Performers</h3>
+        <div class="list-item">
+          <span>1. Uwase Marie</span>
+          <span style="font-weight: 600;">98%</span>
+        </div>
+        <div class="list-item">
+          <span>2. Niyonkuru John</span>
+          <span style="font-weight: 600;">96%</span>
+        </div>
+        <div class="list-item">
+          <span>3. Umutesi Diane</span>
+          <span style="font-weight: 600;">95%</span>
+        </div>
+      </div>
+
+      <div class="dashboard-card">
+        <h3 style="margin-bottom: 20px;">📅 Upcoming Events</h3>
+        <div class="list-item">
+          <span>📝 Final Exams</span>
+          <span>May 15</span>
+        </div>
+        <div class="list-item">
+          <span>🎓 Graduation</span>
+          <span>Jun 20</span>
+        </div>
+        <div class="list-item">
+          <span>👥 Parent Meeting</span>
+          <span>Tomorrow</span>
+        </div>
+      </div>
+
+      <div class="dashboard-card">
+        <h3 style="margin-bottom: 20px;">⚡ Quick Actions</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <button class="btn" style="padding: 15px;">📧 Send Email</button>
+          <button class="btn" style="padding: 15px;">📅 New Event</button>
+          <button class="btn" style="padding: 15px;">📊 Reports</button>
+          <button class="btn" style="padding: 15px;">👤 Add User</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading Animation Demo -->
+    <div style="text-align: center; margin-top: 50px;">
+      <div class="loading-dots">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <p style="color: rgba(255,255,255,0.8); margin-top: 10px;">System is up to date</p>
+    </div>
+  </div>
+</body>
+</html>
